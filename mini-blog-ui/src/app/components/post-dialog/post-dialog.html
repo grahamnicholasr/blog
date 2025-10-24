@@ -1,0 +1,30 @@
+<div class="flex flex-col items-center m-4">
+    @if (this.data?.postToEdit) {
+    <h3 class="font-bold" mat-dialog-title>Edit Post</h3>
+    } @else {
+    <h3 class="font-bold" mat-dialog-title>Create Post</h3>
+    }
+
+    <mat-dialog-content>
+        <form [formGroup]="postForm" class="flex flex-col gap-4 w-100">
+            <mat-form-field class="w-100">
+                <mat-label>Title</mat-label>
+                <input type="text" matInput formControlName="title">
+            </mat-form-field>
+            <mat-form-field class="w-100">
+                <mat-label>Content</mat-label>
+                <textarea matInput formControlName="content"></textarea>
+            </mat-form-field>
+
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button matButton="elevated" (click)="onClose()">Cancel</button>
+        @if (this.data?.postToEdit) {
+        <button matButton="elevated" (click)="onEdit()" class="ml-2">Edit</button>
+        } @else {
+        <button matButton="elevated" (click)="onSubmit()" class="ml-2">Create</button>
+        }
+    </mat-dialog-actions>
+
+</div>

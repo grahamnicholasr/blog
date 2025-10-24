@@ -1,0 +1,36 @@
+<div class="flex flex-col items-center">
+    <div class="m-2">
+        <button matButton="elevated" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+            Create Post
+        </button>
+    </div>
+
+    <div class="m-2 w-full max-w-2xl">
+        @if (this.posts().length) {
+            @for (post of this.posts(); track $index) {
+            <mat-card class="blog-post-card" id="post-{{post.id}}">
+                <mat-card-header>
+                    <mat-card-title>{{post.title}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{post.content}}</p>
+                </mat-card-content>
+                <mat-card-actions class="flex flex-row justify-end">
+                    <button matButton="elevated" (click)="editPost(post)">
+                        <mat-icon>edit</mat-icon>
+                        Edit
+                    </button>
+                    <button matButton="tonal" (click)="deletePost(post.id)">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            }
+        } @else {
+            <p class="flex justify-center">It seems a bit empty in here...</p>
+        }
+
+    </div>
+</div>
