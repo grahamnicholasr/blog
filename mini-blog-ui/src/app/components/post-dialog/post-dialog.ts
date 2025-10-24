@@ -19,6 +19,8 @@ import {
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Post } from '../../models/post';
+import { NewPost } from '../../models/new-post';
+import { BlogPostService } from '../../services/blog-post-service';
 
 @Component({
   selector: 'app-post-dialog',
@@ -33,19 +35,22 @@ export class PostDialog {
     content: new FormControl(this.data?.postToEdit?.content ?? ''),
   });
 
-  constructor(public dialogRef: MatDialogRef<PostDialog>) {
+  constructor(public dialogRef: MatDialogRef<PostDialog>,
+    private blogPostService: BlogPostService  
+  ) {
 
   }
 
   onSubmit() {
-    const newPost: Post = {
-      id: Date.now(),
+    const newPost: NewPost = {
       title: this.postForm.value.title,
       content: this.postForm.value.content
     }
 
-
-    this.dialogRef.close(newPost);
+    this.blogPostService.createPost(newPost).subscribe(returnedPost => {
+      console.log('Post created:', returnedPost);
+      this.dialogRef.close(returnedPost);
+    });
   }
 
   onEdit() {
