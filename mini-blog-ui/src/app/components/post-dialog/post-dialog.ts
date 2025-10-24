@@ -15,9 +15,10 @@ import {
   NgForm,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { Post } from '../../models/post';
 import { NewPost } from '../../models/new-post';
 import { BlogPostService } from '../../services/blog-post-service';
@@ -37,8 +38,8 @@ import { BlogPostService } from '../../services/blog-post-service';
 export class PostDialog {
   data = inject(MAT_DIALOG_DATA);
   postForm = new FormGroup({
-    title: new FormControl(this.data?.postToEdit?.title ?? ''),
-    content: new FormControl(this.data?.postToEdit?.content ?? ''),
+    title: new FormControl(this.data?.postToEdit?.title ?? '', Validators.required),
+    content: new FormControl(this.data?.postToEdit?.content ?? '', Validators.required),
   });
 
   constructor(public dialogRef: MatDialogRef<PostDialog>,
@@ -48,26 +49,30 @@ export class PostDialog {
   }
 
   onSubmit() {
-    const newPost: NewPost = {
-      title: this.postForm.value.title,
-      content: this.postForm.value.content
+    if (this.postForm.valid) {
+      const newPost: NewPost = {
+        title: this.postForm.value.title,
+        content: this.postForm.value.content
+      }
+
+      this.blogPostService.createPost(newPost).subscribe(returnedPost => {
+        console.log('Post created:', returnedPost);
+        this.dialogRef.close(returnedPost);
+      });
     }
 
-    this.blogPostService.createPost(newPost).subscribe(returnedPost => {
-      console.log('Post created:', returnedPost);
-      this.dialogRef.close(returnedPost);
-    });
   }
 
   onEdit() {
-    const postToEdit: Post = this.data?.postToEdit;
-    postToEdit.title = this.postForm.value.title;
-    postToEdit.content = this.postForm.value.content;
+    if (this.postForm.valid) {
+      const postToEdit: Post = this.data?.postToEdit;
+      postToEdit.title = this.postForm.value.title;
+      postToEdit.content = this.postForm.value.content;
 
-    this.blogPostService.updatePost(postToEdit).subscribe(updated => {
-      this.dialogRef.close(updated);
-    });
-
+      this.blogPostService.updatePost(postToEdit).subscribe(updated => {
+        this.dialogRef.close(updated);
+      });
+    }
   }
 
   onClose() {

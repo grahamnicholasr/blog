@@ -55,8 +55,8 @@ def read_posts(
     skip: int = 0,
     limit: int = Query(default=10, lte=100)
 ) -> list[Post]:
-    posts = session.exec(select(Post).offset(skip).limit(limit)).all()
-    return posts
+    posts = session.exec(select(Post).order_by(Post.id).offset(skip).limit(limit)).all()
+    return reversed(posts)
 
 @app.get("/getPost/{post_id}")
 def read_post(*, session: SessionDep, post_id: int) -> Post:

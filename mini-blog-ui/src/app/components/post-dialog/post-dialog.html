@@ -9,11 +9,17 @@
         <form [formGroup]="postForm" class="flex flex-col gap-4 w-100">
             <mat-form-field class="w-100">
                 <mat-label>Title</mat-label>
-                <input type="text" matInput formControlName="title">
+                <input required type="text" matInput id="title" formControlName="title">
+                @if (postForm.get('title')?.invalid && postForm.get('title')?.touched) {
+                          <mat-error>Title is required.</mat-error>
+                }
             </mat-form-field>
             <mat-form-field class="w-100">
                 <mat-label>Content</mat-label>
-                <textarea matInput formControlName="content"></textarea>
+                <textarea required matInput formControlName="content"></textarea>
+                @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
+                          <mat-error>Content is required.</mat-error>
+                }
             </mat-form-field>
 
         </form>
@@ -21,9 +27,9 @@
     <mat-dialog-actions>
         <button matButton="elevated" (click)="onClose()">Cancel</button>
         @if (this.data?.postToEdit) {
-        <button matButton="elevated" (click)="onEdit()" class="ml-2">Edit</button>
+        <button matButton="elevated" [disabled]="!postForm.valid" (click)="onEdit()" class="ml-2">Edit</button>
         } @else {
-        <button matButton="elevated" (click)="onSubmit()" class="ml-2">Create</button>
+        <button matButton="elevated" [disabled]="!postForm.valid" (click)="onSubmit()" class="ml-2">Create</button>
         }
     </mat-dialog-actions>
 

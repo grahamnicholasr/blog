@@ -3,3 +3,19 @@
   margin: 8px;
 }
 
+.truncated-content {
+  color: grey;
+  width: 90%; /* Or a max-width, or rely on parent container's width */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.untruncated-content {
+  width: 100%;
+  white-space: break-spaces;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  text-overflow: clip;
+}
+
