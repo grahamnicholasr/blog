@@ -2,6 +2,7 @@ from typing import Annotated, Union
 from contextlib import asynccontextmanager
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
+from fastapi.middleware.cors import CORSMiddleware
 
 class Post(SQLModel, table=True):
     id: Union[int, None] = Field(default=None, primary_key=True, index=True)
@@ -30,6 +31,14 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],  # Your Angular app's URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/createPost")
 def create_post(post: Post, session: SessionDep) -> Post:
