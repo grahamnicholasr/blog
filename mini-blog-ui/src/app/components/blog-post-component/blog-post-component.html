@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center">
-    <div class="m-2">
+    <div class="m-2 flex flex-row flex-wrap gap-10 items-center justify-center">
         <button matButton="elevated" (click)="openDialog()">
             <mat-icon>add</mat-icon>
             Create Post
@@ -20,7 +20,7 @@
                 <mat-card-content>
                     <p class="truncated-content" id="cart-content-{{post.id}}">{{post.content}}</p>
                 </mat-card-content>
-                <mat-card-actions class="flex flex-row justify-end">
+                <mat-card-actions class="flex flex-row gap-1 flex-wrap md:justify-end justify-center">
                     <button matButton (click)="toggleContent(post.id)">
                         {{ isContentExpanded(post.id) ? 'Show Less' : 'Show More' }}
                     </button>
