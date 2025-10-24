@@ -3,11 +3,15 @@ blog is an app you can run locally that allows users to create read edit and del
 
 # How to run blog:
 ## Running the server:
-- built using python 3.14.0
+- built using python 3.14.0, so you will need to install this for best results.
 - cd to blog/mini-blog-backend
+
 pip install sqlmodel
 pip install "fastapi[standard]"
-fastapi run main.py
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
 
 # How to run Angular
-tbd
+TODO: finish this up
+- cd to blog/mini-blog-ui
+npm install
+npm start
