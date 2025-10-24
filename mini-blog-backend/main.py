@@ -79,7 +79,7 @@ def search_posts(*, session: SessionDep, searchString: str) -> list[Post]:
     posts = session.exec(select(Post).where(Post.title.contains(searchString))).all()
     return posts
 
-@app.put("/updatePost/{post_id}")
+@app.put("/updatePost")
 def update_post(*, session: SessionDep, updated_post: Post) -> Post:
     post = session.get(Post, updated_post.id)
     if not post:

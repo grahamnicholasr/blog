@@ -24,7 +24,13 @@ import { BlogPostService } from '../../services/blog-post-service';
 
 @Component({
   selector: 'app-post-dialog',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, MatDialogContent, MatDialogActions],
+  imports: [FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatDialogContent,
+    MatDialogActions],
   templateUrl: './post-dialog.html',
   styleUrl: './post-dialog.scss',
 })
@@ -36,7 +42,7 @@ export class PostDialog {
   });
 
   constructor(public dialogRef: MatDialogRef<PostDialog>,
-    private blogPostService: BlogPostService  
+    private blogPostService: BlogPostService
   ) {
 
   }
@@ -54,21 +60,14 @@ export class PostDialog {
   }
 
   onEdit() {
-    const editedTitle = this.postForm.value.title ?? '';
-    const editedContent = this.postForm.value.content ?? '';
-    const postToEdit: Post | undefined = this.data?.postToEdit;
+    const postToEdit: Post = this.data?.postToEdit;
+    postToEdit.title = this.postForm.value.title;
+    postToEdit.content = this.postForm.value.content;
 
-    if (!postToEdit) {
-      this.dialogRef.close(this.data.initialValue);
-      return;
-    }
+    this.blogPostService.updatePost(postToEdit).subscribe(updated => {
+      this.dialogRef.close(updated);
+    });
 
-    const updated = (this.data.initialValue || []).map((p: Post) =>
-      p.id === postToEdit.id ? { ...p, title: editedTitle, content: editedContent } : p
-    );
-
-    this.data.initialValue = updated;
-    this.dialogRef.close(updated);
   }
 
   onClose() {

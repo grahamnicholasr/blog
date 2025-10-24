@@ -13,6 +13,7 @@ import {
 } from '@angular/material/dialog';
 import { PostDialog } from '../post-dialog/post-dialog';
 import { Post } from '../../models/post';
+import { BlogPostService } from '../../services/blog-post-service';
 
 @Component({
   selector: 'app-blog-post-component',
@@ -25,7 +26,7 @@ export class BlogPostComponent {
   readonly dialog = inject(MatDialog);
   posts = signal<Array<Post>>([]);
 
-  constructor() { }
+  constructor(private blogPostService: BlogPostService) { }
 
   ngOnInit() {
     this.fetchPosts();
@@ -34,12 +35,9 @@ export class BlogPostComponent {
 
   private fetchPosts() {
     // Simulate fetching posts from a service
-    const dummyPosts: Array<Post> = [
-      { id: 2, title: 'Second Post', content: 'This is the content of the second post.' },
-      { id: 1, title: 'First Post', content: 'This is the content of the first post.' },
-    ];
-    this.posts.set(dummyPosts);
-  }
+    this.blogPostService.getPosts().subscribe((dummyPosts: Post[]) => {
+      this.posts.set(dummyPosts);
+    });  }
 
   public openDialog() {
     const dialogRef = this.dialog.open(PostDialog, {
@@ -74,7 +72,9 @@ export class BlogPostComponent {
   }
 
   public deletePost(postId: number) {
-    this.posts.set(this.posts().filter(post => post.id !== postId));
+    this.blogPostService.deletePost(postId).subscribe(() => {
+      this.posts.set(this.posts().filter(post => post.id !== postId));
+    });
   }
 
 }
