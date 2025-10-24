@@ -56,7 +56,6 @@ export class PostDialog {
       }
 
       this.blogPostService.createPost(newPost).subscribe(returnedPost => {
-        console.log('Post created:', returnedPost);
         this.dialogRef.close(returnedPost);
       });
     }
