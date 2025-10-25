@@ -12,23 +12,23 @@ export class BlogPostService {
 
   constructor(private http: HttpClient) {}
 
-  public createPost(post: NewPost): Observable<any> {
-    return this.http.post(`${this.baseUrl}/createPost`, post);
+  public createPost(post: NewPost): Observable<Post> {
+    return this.http.post<Post>(`${this.baseUrl}/createPost`, post);
   }
 
-  public getPosts(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getPosts`);
+  public getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseUrl}/getPosts`);
   }
 
-  public searchByTitle(title: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/searchByTitle`, { params: { 'searchString': title } });
+  public searchByTitle(title: string): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseUrl}/searchByTitle`, { params: { 'searchString': title } });
   }
 
-  public deletePost(postId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/deletePost/${postId}`);
+  public deletePost(postId: number): Observable<{ ok: boolean }> {
+    return this.http.delete<{ ok: boolean }>(`${this.baseUrl}/deletePost/${postId}`);
   }
 
-  public updatePost(post: Post): Observable<any> {
-    return this.http.put(`${this.baseUrl}/updatePost`, post);
+  public updatePost(post: Post): Observable<Post> {
+    return this.http.put<Post>(`${this.baseUrl}/updatePost`, post);
   }
 }
