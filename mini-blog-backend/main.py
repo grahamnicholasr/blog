@@ -45,7 +45,6 @@ def create_post(post: Post, session: SessionDep) -> Post:
     session.add(post)
     session.commit()
     session.refresh(post)
-    print(post)
     return post
 
 @app.get("/getPosts")
@@ -71,9 +70,7 @@ def delete_post(*, session: SessionDep, post_id: int) -> dict:
 
 @app.get("/searchByTitle")
 def search_by_title(*, session: SessionDep, searchString: str = "") -> list[Post]:
-    print("searching for ", searchString)
     if not searchString:
-        print("empty search string")
         posts = session.exec(select(Post).order_by(Post.id)).all()
         return reversed(posts)
     posts = session.exec(select(Post).where(Post.title.contains(searchString)).order_by(Post.id)).all()
