@@ -6,15 +6,15 @@
     }
 
     <mat-dialog-content>
-        <form [formGroup]="postForm" class="flex flex-col gap-4 w-100">
-            <mat-form-field class="w-100">
+        <form [formGroup]="postForm" class="flex flex-col justify-center w-70 md:w-85 lg:w-100">
+            <mat-form-field>
                 <mat-label>Title</mat-label>
                 <input required type="text" matInput id="title" formControlName="title">
                 @if (postForm.get('title')?.invalid && postForm.get('title')?.touched) {
                           <mat-error>Title is required.</mat-error>
                 }
             </mat-form-field>
-            <mat-form-field class="w-100">
+            <mat-form-field>
                 <mat-label>Content</mat-label>
                 <textarea required matInput formControlName="content"></textarea>
                 @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
@@ -25,12 +25,12 @@
         </form>
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button matButton="elevated" (click)="onClose()">Cancel</button>
-        @if (this.data?.postToEdit) {
-        <button matButton="elevated" [disabled]="!postForm.valid" (click)="onEdit()" class="ml-2">Edit</button>
-        } @else {
-        <button matButton="elevated" [disabled]="!postForm.valid" (click)="onSubmit()" class="ml-2">Create</button>
-        }
+            <button matButton="elevated" (click)="onClose()">Cancel</button>
+            @if (this.data?.postToEdit) {
+            <button matButton="elevated" [disabled]="!postForm.valid" (click)="onEdit()" class="ml-2">Edit</button>
+            } @else {
+            <button matButton="elevated" [disabled]="!postForm.valid" (click)="onSubmit()" class="ml-2">Create</button>
+            }
     </mat-dialog-actions>
 
 </div>

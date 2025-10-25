@@ -56,7 +56,9 @@ export class BlogPostComponent {
   public getPosts() {
     this.blogPostService.getPosts().subscribe((posts: Post[]) => {
       this.posts.set(posts);
-    });  }
+      this.clearSearch();
+    });  
+  }
 
   public openDialog() {
     const dialogRef = this.dialog.open(PostDialog, {
@@ -68,7 +70,7 @@ export class BlogPostComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
-        this.posts.set([result, ...this.posts()]);
+        this.getPosts()
       }
     });
   }

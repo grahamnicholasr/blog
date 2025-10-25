@@ -1,13 +1,13 @@
 <div class="flex flex-col items-center justify-center w-full">
-    <div class="m-2 flex flex-row flex-wrap gap-3 items-center justify-center w-full">
+    <div class="m-2 flex flex-row flex-wrap gap-3 items-top justify-stretch">
         <form [formGroup]="searchTitleForm">
-            <mat-form-field appearance="fill" class="w-55 flex flex-row">
-                <mat-label>Filter by Title</mat-label>
-                    <input (keydown.enter)="searchByTitle()" matInput formControlName="searchTitle" />
+            <mat-form-field appearance="fill" class="w-70 flex flex-row">
+                <mat-label>Filter By Title</mat-label>
+                    <input (keydown.enter)="searchByTitle()" matInput placeholder="Press Enter To Filter" formControlName="searchTitle" />
                     @if(searchTitleForm.get('searchTitle')?.value) {
-                        <mat-icon (click)="clearSearch()" matTextSuffix="">close</mat-icon>
+                        <mat-icon (click)="clearSearch()" matTextSuffix>close</mat-icon>
                     }
-                    <mat-icon (click)="searchByTitle()" matSuffix>filter_alt</mat-icon>
+                    <mat-icon matSuffix (click)="searchByTitle()">filter_alt</mat-icon>
                 </mat-form-field>
         </form>
         <button matButton="elevated" (click)="getPosts()">
@@ -17,6 +17,7 @@
         <button matButton="elevated" (click)="openDialog()">
             <mat-icon>add</mat-icon>
             Create Post
+
         </button>
     </div>
 
