@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +29,7 @@ import {
   templateUrl: './blog-post-component.html',
   styleUrls: ['./blog-post-component.scss'],
 })
-export class BlogPostComponent {
+export class BlogPostComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   posts = signal<Array<Post>>([]);
   searchTitleForm = new FormGroup({

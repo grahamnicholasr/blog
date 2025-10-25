@@ -60,9 +60,11 @@ export class PostDialog {
 
   onEdit() {
     if (this.postForm.valid) {
-      const postToEdit: Post = this.data?.postToEdit;
-      postToEdit.title = this.postForm.value.title;
-      postToEdit.content = this.postForm.value.content;
+      const postToEdit: Post = {
+        id: this.data.postToEdit.id,
+        title: this.postForm.value.title,
+        content: this.postForm.value.content
+      }
 
       this.blogPostService.updatePost(postToEdit).subscribe(updated => {
         this.dialogRef.close(updated);
