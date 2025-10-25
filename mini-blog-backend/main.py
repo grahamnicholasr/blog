@@ -49,13 +49,8 @@ def create_post(post: Post, session: SessionDep) -> Post:
     return post
 
 @app.get("/getPosts")
-def read_posts(
-    *,
-    session: SessionDep,
-    skip: int = 0,
-    limit: int = Query(default=10, lte=100)
-) -> list[Post]:
-    posts = session.exec(select(Post).order_by(Post.id).offset(skip).limit(limit)).all()
+def read_posts(*, session: SessionDep) -> list[Post]:
+    posts = session.exec(select(Post).order_by(Post.id)).all()
     return reversed(posts)
 
 @app.get("/getPost/{post_id}")
@@ -74,10 +69,15 @@ def delete_post(*, session: SessionDep, post_id: int) -> dict:
     session.commit()
     return {"ok": True}
 
-@app.get("/searchPosts")
-def search_posts(*, session: SessionDep, searchString: str) -> list[Post]:
-    posts = session.exec(select(Post).where(Post.title.contains(searchString))).all()
-    return posts
+@app.get("/searchByTitle")
+def search_by_title(*, session: SessionDep, searchString: str = "") -> list[Post]:
+    print("searching for ", searchString)
+    if not searchString:
+        print("empty search string")
+        posts = session.exec(select(Post).order_by(Post.id)).all()
+        return reversed(posts)
+    posts = session.exec(select(Post).where(Post.title.contains(searchString)).order_by(Post.id)).all()
+    return list(reversed(posts))
 
 @app.put("/updatePost")
 def update_post(*, session: SessionDep, updated_post: Post) -> Post:

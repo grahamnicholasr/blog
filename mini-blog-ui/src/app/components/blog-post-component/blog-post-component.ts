@@ -1,33 +1,59 @@
-import { Component, inject, signal} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
-import {
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 import { PostDialog } from '../post-dialog/post-dialog';
 import { Post } from '../../models/post';
 import { BlogPostService } from '../../services/blog-post-service';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule
+} from '@angular/forms';
 
 @Component({
   selector: 'app-blog-post-component',
   standalone: true,
-  imports: [ MatCardModule, MatButtonModule,  MatIconModule, MatButtonModule],
+  imports: [MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule],
   templateUrl: './blog-post-component.html',
   styleUrls: ['./blog-post-component.scss'],
 })
 export class BlogPostComponent {
   readonly dialog = inject(MatDialog);
   posts = signal<Array<Post>>([]);
+  searchTitleForm = new FormGroup({
+    searchTitle: new FormControl('')
+  });
 
   constructor(private blogPostService: BlogPostService) { }
 
   ngOnInit() {
-    this.fetchPosts();
+    this.getPosts();
   }
 
+  public clearSearch() {
+    this.searchTitleForm.reset();
+  }
 
-  public fetchPosts() {
+  public searchByTitle() {
+    const title = this.searchTitleForm.value?.searchTitle ?? '';
+    this.blogPostService.searchByTitle(title).subscribe((posts: Post[]) => {
+      this.posts.set(posts);
+    });
+  }
+
+  public getPosts() {
     this.blogPostService.getPosts().subscribe((posts: Post[]) => {
       this.posts.set(posts);
     });  }
@@ -58,7 +84,7 @@ export class BlogPostComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
-        this.fetchPosts()
+        this.getPosts()
       }
     });
   }

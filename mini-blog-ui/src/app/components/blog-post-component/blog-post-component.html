@@ -1,12 +1,22 @@
-<div class="flex flex-col items-center">
-    <div class="m-2 flex flex-row flex-wrap gap-10 items-center justify-center">
+<div class="flex flex-col items-center justify-center w-full">
+    <div class="m-2 flex flex-row flex-wrap gap-3 items-center justify-center w-full">
+        <form [formGroup]="searchTitleForm">
+            <mat-form-field appearance="fill" class="w-55 flex flex-row">
+                <mat-label>Filter by Title</mat-label>
+                    <input (keydown.enter)="searchByTitle()" matInput formControlName="searchTitle" />
+                    @if(searchTitleForm.get('searchTitle')?.value) {
+                        <mat-icon (click)="clearSearch()" matTextSuffix="">close</mat-icon>
+                    }
+                    <mat-icon (click)="searchByTitle()" matSuffix>filter_alt</mat-icon>
+                </mat-form-field>
+        </form>
+        <button matButton="elevated" (click)="getPosts()">
+            <mat-icon>search</mat-icon>
+            Get All Posts
+        </button>
         <button matButton="elevated" (click)="openDialog()">
             <mat-icon>add</mat-icon>
             Create Post
-        </button>
-        <button matButton="elevated" (click)="fetchPosts()">
-            <mat-icon>search</mat-icon>
-            Get All Posts
         </button>
     </div>
 

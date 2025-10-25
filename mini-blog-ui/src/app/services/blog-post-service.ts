@@ -20,6 +20,10 @@ export class BlogPostService {
     return this.http.get(`${this.baseUrl}/getPosts`);
   }
 
+  public searchByTitle(title: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/searchByTitle`, { params: { 'searchString': title } });
+  }
+
   public deletePost(postId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/deletePost/${postId}`);
   }
