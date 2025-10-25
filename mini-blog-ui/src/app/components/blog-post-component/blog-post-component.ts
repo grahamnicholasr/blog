@@ -42,7 +42,7 @@ export class BlogPostComponent {
     this.getPosts();
   }
 
-  public clearSearch() {
+  public clearFilterByTitle() {
     this.searchTitleForm.reset();
   }
 
@@ -56,7 +56,6 @@ export class BlogPostComponent {
   public getPosts() {
     this.blogPostService.getPosts().subscribe((posts: Post[]) => {
       this.posts.set(posts);
-      this.clearSearch();
     });  
   }
 

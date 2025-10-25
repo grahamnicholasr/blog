@@ -5,7 +5,7 @@
                 <mat-label>Filter By Title</mat-label>
                     <input (keydown.enter)="searchByTitle()" matInput placeholder="Press Enter To Filter" formControlName="searchTitle" />
                     @if(searchTitleForm.get('searchTitle')?.value) {
-                        <mat-icon (click)="clearSearch()" matTextSuffix>close</mat-icon>
+                        <mat-icon (click)="clearFilterByTitle()" matTextSuffix>close</mat-icon>
                     }
                     <mat-icon matSuffix (click)="searchByTitle()">filter_alt</mat-icon>
                 </mat-form-field>
