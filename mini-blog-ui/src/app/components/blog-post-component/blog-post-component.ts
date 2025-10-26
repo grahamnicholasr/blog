@@ -66,6 +66,7 @@ export class BlogPostComponent implements OnInit {
     const title = this.searchTitleForm.value?.searchTitle ?? '';
     this.blogPostService.filterByTitle(title).subscribe((posts: Post[]) => {
       this.posts.set(posts);
+      this.pageIndex = 0;
       this.updatePaginatedPosts();
     });
   }
@@ -73,6 +74,7 @@ export class BlogPostComponent implements OnInit {
   public getPosts() {
     this.blogPostService.getPosts().subscribe((posts: Post[]) => {
       this.posts.set(posts);
+      this.pageIndex = 0;
       this.updatePaginatedPosts();
     });  
   }
@@ -144,6 +146,12 @@ export class BlogPostComponent implements OnInit {
   private updatePaginatedPosts() {
     const startIndex = this.pageIndex * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.paginatedPosts.set(this.posts().slice(startIndex, endIndex));
+    if (startIndex >= this.posts().length) {
+      this.pageIndex -= 1;
+      this.updatePaginatedPosts();
+    } else {
+        this.paginatedPosts.set(this.posts().slice(startIndex, endIndex));
+
+    }
   }
 }
