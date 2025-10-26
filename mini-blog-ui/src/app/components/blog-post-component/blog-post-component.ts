@@ -9,6 +9,7 @@ import { BlogPostService } from '../../services/blog-post-service';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import {
   FormControl,
   FormGroup,
@@ -25,21 +26,32 @@ import {
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    MatPaginatorModule
+  ],
   templateUrl: './blog-post-component.html',
   styleUrls: ['./blog-post-component.scss'],
 })
 export class BlogPostComponent implements OnInit {
   readonly dialog = inject(MatDialog);
   posts = signal<Array<Post>>([]);
+  paginatedPosts = signal<Array<Post>>([]);
   searchTitleForm = new FormGroup({
     searchTitle: new FormControl('')
   });
+  pageSize = 5;
+  pageIndex = 0;
 
   constructor(private blogPostService: BlogPostService) { }
 
   ngOnInit() {
     this.getPosts();
+  }
+
+  public handlePageEvent(e: PageEvent) {
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
+    this.updatePaginatedPosts();
   }
 
   public clearFilterByTitle() {
@@ -50,12 +62,14 @@ export class BlogPostComponent implements OnInit {
     const title = this.searchTitleForm.value?.searchTitle ?? '';
     this.blogPostService.filterByTitle(title).subscribe((posts: Post[]) => {
       this.posts.set(posts);
+      this.updatePaginatedPosts();
     });
   }
 
   public getPosts() {
     this.blogPostService.getPosts().subscribe((posts: Post[]) => {
       this.posts.set(posts);
+      this.updatePaginatedPosts();
     });  
   }
 
@@ -93,6 +107,7 @@ export class BlogPostComponent implements OnInit {
   public deletePost(postId: number) {
     this.blogPostService.deletePost(postId).subscribe(() => {
       this.posts.set(this.posts().filter(post => post.id !== postId));
+      this.updatePaginatedPosts();
     });
   }
 
@@ -113,5 +128,11 @@ export class BlogPostComponent implements OnInit {
       contentElement?.classList.add('truncated-content');
       contentElement?.classList.remove('untruncated-content'); 
     }
+  }
+
+  private updatePaginatedPosts() {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedPosts.set(this.posts().slice(startIndex, endIndex));
   }
 }
