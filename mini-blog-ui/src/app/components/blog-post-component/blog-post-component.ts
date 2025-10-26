@@ -42,6 +42,10 @@ export class BlogPostComponent implements OnInit {
   pageSize = 5;
   pageIndex = 0;
 
+  get pageSizeOptions(): number[] {
+    return [5, 10, 25, 50, 100, this.posts().length];
+  }
+
   constructor(private blogPostService: BlogPostService) { }
 
   ngOnInit() {
