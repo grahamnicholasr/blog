@@ -3,11 +3,11 @@
         <form [formGroup]="searchTitleForm">
             <mat-form-field appearance="fill" class="w-70 flex flex-row">
                 <mat-label>Filter By Title</mat-label>
-                    <input (keydown.enter)="searchByTitle()" matInput placeholder="Press Enter To Filter" formControlName="searchTitle" />
+                    <input (keydown.enter)="filterByTitle()" matInput placeholder="Press Enter To Filter" formControlName="searchTitle" />
                     @if(searchTitleForm.get('searchTitle')?.value) {
                         <mat-icon (click)="clearFilterByTitle()" matTextSuffix>close</mat-icon>
                     }
-                    <mat-icon matSuffix (click)="searchByTitle()">filter_alt</mat-icon>
+                    <mat-icon matSuffix (click)="filterByTitle()">filter_alt</mat-icon>
                 </mat-form-field>
         </form>
         <button matButton="elevated" (click)="getPosts()">
@@ -21,7 +21,7 @@
         </button>
     </div>
 
-    <div class="m-2 w-full max-w-2xl">
+    <div class="m-2 w-full max-w-5xl justify-center flex flex-col items-center">
         @if (this.posts().length) {
             @for (post of this.posts(); track $index) {
             <mat-card class="blog-post-card" id="post-{{post.id}}">

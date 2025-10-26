@@ -20,8 +20,8 @@ export class BlogPostService {
     return this.http.get<Post[]>(`${this.baseUrl}/getPosts`);
   }
 
-  public searchByTitle(title: string): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.baseUrl}/searchByTitle`, { params: { 'searchString': title } });
+  public filterByTitle(title: string): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseUrl}/filterByTitle`, { params: { 'searchString': title } });
   }
 
   public deletePost(postId: number): Observable<{ ok: boolean }> {

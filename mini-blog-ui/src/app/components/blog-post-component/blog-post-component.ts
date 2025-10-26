@@ -46,9 +46,9 @@ export class BlogPostComponent implements OnInit {
     this.searchTitleForm.reset();
   }
 
-  public searchByTitle() {
+  public filterByTitle() {
     const title = this.searchTitleForm.value?.searchTitle ?? '';
-    this.blogPostService.searchByTitle(title).subscribe((posts: Post[]) => {
+    this.blogPostService.filterByTitle(title).subscribe((posts: Post[]) => {
       this.posts.set(posts);
     });
   }

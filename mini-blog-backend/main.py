@@ -68,7 +68,7 @@ def delete_post(*, session: SessionDep, post_id: int) -> dict:
     session.commit()
     return {"ok": True}
 
-@app.get("/searchByTitle")
+@app.get("/filterByTitle")
 def search_by_title(*, session: SessionDep, searchString: str = "") -> list[Post]:
     if not searchString:
         posts = session.exec(select(Post).order_by(Post.id)).all()
