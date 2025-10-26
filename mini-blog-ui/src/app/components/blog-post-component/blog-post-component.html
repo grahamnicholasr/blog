@@ -14,7 +14,7 @@
             <mat-icon>search</mat-icon>
             Get All Posts
         </button>
-        <button matButton="elevated" (click)="openDialog()">
+        <button matButton="elevated" (click)="openDialog()" [disabled]="!isLoggedIn()">
             <mat-icon>add</mat-icon>
             Create Post
 
@@ -35,11 +35,11 @@
                     <button matButton (click)="toggleContent(post.id)">
                         {{ isContentExpanded(post.id) ? 'Show Less' : 'Show More' }}
                     </button>
-                    <button matButton="elevated" (click)="editPost(post)">
+                    <button matButton="elevated" (click)="editPost(post)" [disabled]="!isLoggedIn()">
                         <mat-icon>edit</mat-icon>
                         Edit
                     </button>
-                    <button matButton="tonal" class="delete-button" (click)="deletePost(post.id)">
+                    <button matButton="tonal" class="delete-button" (click)="deletePost(post.id)" [disabled]="!isLoggedIn()">
                         <mat-icon>delete</mat-icon>
                         Delete
                     </button>

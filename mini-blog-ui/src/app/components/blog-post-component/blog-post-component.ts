@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,8 @@ import {
   FormGroup,
   ReactiveFormsModule
 } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-blog-post-component',
@@ -27,7 +29,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CommonModule
   ],
   templateUrl: './blog-post-component.html',
   styleUrls: ['./blog-post-component.scss'],
@@ -41,12 +44,15 @@ export class BlogPostComponent implements OnInit {
   });
   pageSize = 5;
   pageIndex = 0;
+  isLoggedIn: Signal<boolean>;
 
   get pageSizeOptions(): number[] {
     return [5, 10, 25, 50, 100, this.posts().length];
   }
 
-  constructor(private blogPostService: BlogPostService) { }
+  constructor(private blogPostService: BlogPostService, private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn;
+  }
 
   ngOnInit() {
     this.getPosts();

@@ -1,3 +1,24 @@
+<mat-toolbar class="flex flex-row justify-between" color="primary">
+  <h1>Blog</h1>
+  <div>
+    <span class="spacer"></span>
+    <button matButton="elevated" matToolTip="Profile" [matMenuTriggerFor]="menu">
+      <mat-icon>person</mat-icon>
+      Profile
+    </button>
+    <mat-menu #menu="matMenu">
+      @if (!isLoggedIn()) {
+      <button mat-menu-item (click)="openLoginDialog('login')">Login</button>
+      <button mat-menu-item (click)="openLoginDialog('signup')">Sign Up</button>
+      }
+      @if (isLoggedIn()) {
+      <button mat-menu-item (click)="logout()">Logout</button>
+      }
+    </mat-menu>
+  </div>
+
+</mat-toolbar>
+
 <div class="m-4">
   <app-blog-post-component></app-blog-post-component>
 </div>

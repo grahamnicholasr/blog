@@ -3,6 +3,7 @@ import { NewPost } from '../models/new-post';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +11,16 @@ import { Post } from '../models/post';
 export class BlogPostService {
   private baseUrl = 'http://localhost:8000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  private getHeaders(): { 'Authorization': string } {
+    const token = this.authService.getAuthorizationToken();
+    return { 'Authorization': `Bearer ${token}` };
+  }
 
   public createPost(post: NewPost): Observable<Post> {
-    return this.http.post<Post>(`${this.baseUrl}/createPost`, post);
+    const headers = this.getHeaders();
+    return this.http.post<Post>(`${this.baseUrl}/createPost`, post, { headers });
   }
 
   public getPosts(): Observable<Post[]> {
@@ -25,10 +32,12 @@ export class BlogPostService {
   }
 
   public deletePost(postId: number): Observable<{ ok: boolean }> {
-    return this.http.delete<{ ok: boolean }>(`${this.baseUrl}/deletePost/${postId}`);
+    const headers = this.getHeaders();
+    return this.http.delete<{ ok: boolean }>(`${this.baseUrl}/deletePost/${postId}`, { headers });
   }
 
   public updatePost(post: Post): Observable<Post> {
-    return this.http.put<Post>(`${this.baseUrl}/updatePost`, post);
+    const headers = this.getHeaders();
+    return this.http.put<Post>(`${this.baseUrl}/updatePost`, post, { headers });
   }
 }
