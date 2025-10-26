@@ -102,8 +102,15 @@ export class BlogPostComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) { 
-        this.getPosts()
+      if (result) {
+        this.posts.update(posts => {
+          const postIndex = posts.findIndex(p => p.id === result.id);
+          if (postIndex > -1) {
+            posts[postIndex] = result;
+          }
+          return posts;
+        });
+        this.updatePaginatedPosts();
       }
     });
   }
