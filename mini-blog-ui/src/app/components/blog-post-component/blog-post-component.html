@@ -1,7 +1,7 @@
 <div class="flex flex-col items-center justify-center w-full">
     <div class="m-2 flex flex-row flex-wrap gap-3 items-top justify-center">
         <form [formGroup]="searchTitleForm">
-            <mat-form-field appearance="fill" class="w-70 flex flex-row">
+            <mat-form-field appearance="fill" class="sm:w-70 w-full flex flex-row">
                 <mat-label>Filter By Title</mat-label>
                     <input (keydown.enter)="filterByTitle()" matInput placeholder="Press Enter To Filter" formControlName="searchTitle" />
                     @if(searchTitleForm.get('searchTitle')?.value) {
@@ -10,11 +10,11 @@
                     <mat-icon matSuffix (click)="filterByTitle()">filter_alt</mat-icon>
                 </mat-form-field>
         </form>
-        <button matButton="elevated" (click)="getPosts()">
+        <button class="w-38" matButton="elevated" (click)="getPosts()">
             <mat-icon>search</mat-icon>
             Get All Posts
         </button>
-        <button matButton="elevated" (click)="openDialog()" [disabled]="!isLoggedIn()">
+        <button class="w-38" matButton="elevated" (click)="openDialog()" [disabled]="!isLoggedIn()">
             <mat-icon>add</mat-icon>
             Create Post
 
@@ -23,7 +23,7 @@
 
     <div class="m-2 w-full max-w-5xl justify-center flex flex-col items-center">
         @if (this.posts().length) {
-            @for (post of this.paginatedPosts(); track post) {
+            @for (post of this.paginatedPosts(); track post.id) {
             <mat-card class="blog-post-card" id="post-{{post.id}}">
                 <mat-card-header>
                     <mat-card-title>{{post.title}}</mat-card-title>
@@ -31,15 +31,15 @@
                 <mat-card-content>
                     <p class="truncated-content" id="cart-content-{{post.id}}">{{post.content}}</p>
                 </mat-card-content>
-                <mat-card-actions class="flex flex-row gap-1 flex-wrap sm:justify-end justify-center">
-                    <button matButton (click)="toggleContent(post.id)">
+                <mat-card-actions class="flex sm:flex-row flex-col gap-1 flex-wrap sm:justify-end justify-center">
+                    <button class="sm:w-25 w-full" matButton (click)="toggleContent(post.id)">
                         {{ isContentExpanded(post.id) ? 'Show Less' : 'Show More' }}
                     </button>
-                    <button matButton="elevated" (click)="editPost(post)" [disabled]="!isLoggedIn()">
+                    <button  class="sm:w-25 w-full" matButton="elevated" (click)="editPost(post)" [disabled]="!isLoggedIn()">
                         <mat-icon>edit</mat-icon>
                         Edit
                     </button>
-                    <button matButton="tonal" class="delete-button" (click)="deletePost(post.id)" [disabled]="!isLoggedIn()">
+                    <button matButton="tonal" class="delete-button sm:w-25 w-full" (click)="deletePost(post.id)" [disabled]="!isLoggedIn()">
                         <mat-icon>delete</mat-icon>
                         Delete
                     </button>

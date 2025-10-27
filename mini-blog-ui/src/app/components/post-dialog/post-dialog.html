@@ -16,7 +16,7 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Content</mat-label>
-                <textarea required matInput formControlName="content"></textarea>
+                <textarea class="post-dialog-content" required matInput formControlName="content"></textarea>
                 @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
                           <mat-error>Content is required.</mat-error>
                 }
