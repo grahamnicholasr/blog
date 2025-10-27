@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Post } from '../../models/post';
 import { NewPost } from '../../models/new-post';
 import { BlogPostService } from '../../services/blog-post-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-post-dialog',
@@ -37,10 +38,14 @@ export class PostDialog {
     title: new FormControl(this.data?.postToEdit?.title ?? '', Validators.required),
     content: new FormControl(this.data?.postToEdit?.content ?? '', Validators.required),
   });
+    isLoggedIn: Signal<boolean>;
+
 
   constructor(public dialogRef: MatDialogRef<PostDialog>,
-    private blogPostService: BlogPostService
+    private blogPostService: BlogPostService,
+    private authService: AuthService
   ) {
+        this.isLoggedIn = this.authService.isLoggedIn;
 
   }
 

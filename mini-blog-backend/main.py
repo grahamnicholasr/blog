@@ -145,7 +145,9 @@ def create_user(user: User, session: SessionDep):
 # --- Blog Post Endpoints ---
 
 @app.post("/createPost")
-def create_post(post: Post, session: SessionDep) -> Post:
+def create_post(post: Post, session: SessionDep, current_user: CurrentUser) -> Post:
+    if not current_user.username:
+        raise HTTPException(status_code=403, detail="Not authorized to delete this post")
     session.add(post)
     session.commit()
     session.refresh(post)

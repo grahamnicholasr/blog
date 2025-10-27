@@ -27,9 +27,9 @@
     <mat-dialog-actions>
             <button matButton="elevated" (click)="onClose()">Cancel</button>
             @if (this.data?.postToEdit) {
-            <button matButton="elevated" [disabled]="!postForm.valid" (click)="onEdit()" class="ml-2">Edit</button>
+            <button matButton="elevated" [disabled]="!postForm.valid || !isLoggedIn()" (click)="onEdit()" class="ml-2">Edit</button>
             } @else {
-            <button matButton="elevated" [disabled]="!postForm.valid" (click)="onSubmit()" class="ml-2">Create</button>
+            <button matButton="elevated" [disabled]="!postForm.valid || !isLoggedIn()" (click)="onSubmit()" class="ml-2">Create</button>
             }
     </mat-dialog-actions>
 
