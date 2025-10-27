@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   private readonly TOKEN_NAME = 'access_token';
   private apiUrl = 'http://localhost:8000'; // Your FastAPI backend URL
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this._isLoggedIn.set(!!this.getToken());
   }
 
@@ -38,6 +39,9 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/token`, formData).pipe(
       tap((response: any) => {
         this.setToken(response.access_token);
+        this.snackBar.open('Successful login.', 'Close', {
+              duration: 5000,
+            });
       })
     );
   }
@@ -51,6 +55,9 @@ export class AuthService {
   }
 
   logout(): void {
+    this.snackBar.open('You have been logged out.', 'Close', {
+              duration: 5000,
+            });
     this.removeToken();
   }
 

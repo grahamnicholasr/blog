@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-blog-post-component',
@@ -50,7 +51,7 @@ export class BlogPostComponent implements OnInit {
     return [5, 10, 25, 50, 100];
   }
 
-  constructor(private blogPostService: BlogPostService, private authService: AuthService) {
+  constructor(private blogPostService: BlogPostService, private authService: AuthService, private snackBar: MatSnackBar) {
     this.isLoggedIn = this.authService.isLoggedIn;
   }
 
@@ -95,6 +96,9 @@ export class BlogPostComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
+              this.snackBar.open('Successfully created post.', 'Close', {
+              duration: 5000,
+            });
         this.getPosts()
       }
     });
@@ -118,6 +122,9 @@ export class BlogPostComponent implements OnInit {
           }
           return posts;
         });
+              this.snackBar.open('Successfully edited post.', 'Close', {
+              duration: 5000,
+            });
         this.updatePaginatedPosts();
       }
     });
@@ -127,6 +134,9 @@ export class BlogPostComponent implements OnInit {
     this.blogPostService.deletePost(postId).subscribe(() => {
       this.posts.set(this.posts().filter(post => post.id !== postId));
       this.updatePaginatedPosts();
+      this.snackBar.open('Successfully deleted post.', 'Close', {
+              duration: 5000,
+            });
     });
   }
 

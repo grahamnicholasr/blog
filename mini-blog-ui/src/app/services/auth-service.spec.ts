@@ -47,7 +47,7 @@ describe('AuthService', () => {
 
   it('should logout successfully and remove token', () => {
     localStorage.setItem('access_token', 'test-token');
-    service = new AuthService(TestBed.inject(AuthService)['http']); // re-init to pick up token
+    service = new AuthService(TestBed.inject(AuthService)['http'], TestBed.inject(AuthService)['snackBar']); // re-init to pick up token
     expect(service.isLoggedIn()).toBeTrue();
 
     service.logout();
