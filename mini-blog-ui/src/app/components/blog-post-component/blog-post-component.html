@@ -23,7 +23,7 @@
 
     <div class="m-2 w-full max-w-5xl justify-center flex flex-col items-center">
         @if (this.posts().length) {
-            @for (post of this.paginatedPosts(); track $index) {
+            @for (post of this.paginatedPosts(); track post) {
             <mat-card class="blog-post-card" id="post-{{post.id}}">
                 <mat-card-header>
                     <mat-card-title>{{post.title}}</mat-card-title>
