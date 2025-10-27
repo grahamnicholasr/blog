@@ -47,7 +47,7 @@ export class BlogPostComponent implements OnInit {
   isLoggedIn: Signal<boolean>;
 
   get pageSizeOptions(): number[] {
-    return [5, 10, 25, 50, 100, this.posts().length];
+    return [5, 10, 25, 50, 100];
   }
 
   constructor(private blogPostService: BlogPostService, private authService: AuthService) {
